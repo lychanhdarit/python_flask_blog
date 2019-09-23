@@ -26,3 +26,6 @@ pip install SQLAlchemy
 
 
 db.createall()
+
+
+pip install Pillow

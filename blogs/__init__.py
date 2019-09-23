@@ -8,14 +8,18 @@ import yaml
 app = Flask(__name__, template_folder="templates")
 app.config['SECRET_KEY'] = 'b92aea7c8651242a00793d6fa1a98197'
 bcrypt = Bcrypt(app)
+#Đăng ký login_manager
 login_manager = LoginManager(app)
-
+#Thiết lập trang yêu cầu login
+login_manager.login_view = 'login'
+login_manager.login_message_category = 'info'
+#File yaml chưa các thông tin cấu hình 
 dbConfig = yaml.load(open('db.yaml'))
+#Cấu hình kết nối database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://'+dbConfig['mysql_user']+':'+dbConfig['mysql_password'] +'@'+dbConfig['mysql_host']+'/'+dbConfig['mysql_db']
 db = SQLAlchemy(app)
 
-from datetime import datetime
-
+from datetime import datetime 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
